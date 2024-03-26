@@ -202,6 +202,19 @@ extern void tuned_STREAM_Triad(STREAM_TYPE scalar);
 #ifdef _OPENMP
 extern int omp_get_num_threads();
 #endif
+
+void write_result(const char* fname, const double* times, const double bytes) {
+  FILE* results = fopen(fname, "w");
+  if (!results) printf("Error: Unable to create %s\n", fname);
+  fprintf(results, "IterTime,Bandwith\n");
+
+  for (int i = 0; i < NTIMES; i++) {
+    fprintf(results, "%f,%f\n", times[i], 1.0E-06 * bytes / times[i]);
+  }
+
+  if (fclose(results)) printf("Error: Unable to write %s\n", fname);
+}
+
 int main() {
   int quantum, checktick();
   int BytesPerWord;
@@ -349,6 +362,12 @@ int main() {
   }
 
   /*	--- SUMMARY --- */
+
+  write_result("Copy.csv", times[0], bytes[0]);
+  write_result("Scale.csv", times[1], bytes[1]);
+  write_result("Add.csv", times[2], bytes[2]);
+  write_result("Triad.csv", times[3], bytes[3]);
+
   for (k = 1; k < NTIMES; k++) /* note -- skip first iteration */
   {
     for (j = 0; j < 4; j++) {
