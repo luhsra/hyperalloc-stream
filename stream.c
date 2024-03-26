@@ -209,6 +209,7 @@ void write_result(const char* fname, const double* times, const double bytes) {
     printf("Error: Unable to create %s\n", fname);
     return;
   }
+  fprintf(results, "IterTime,Bandwidth\n");
 
   for (int i = 0; i < NTIMES; i++) {
     fprintf(results, "%f,%f\n", times[i], 1.0E-06 * bytes / times[i]);
