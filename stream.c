@@ -205,8 +205,10 @@ extern int omp_get_num_threads();
 
 void write_result(const char* fname, const double* times, const double bytes) {
   FILE* results = fopen(fname, "w");
-  if (!results) printf("Error: Unable to create %s\n", fname);
-  fprintf(results, "IterTime,Bandwith\n");
+  if (!results) {
+    printf("Error: Unable to create %s\n", fname);
+    return;
+  }
 
   for (int i = 0; i < NTIMES; i++) {
     fprintf(results, "%f,%f\n", times[i], 1.0E-06 * bytes / times[i]);
