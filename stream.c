@@ -323,8 +323,8 @@ int main() {
 
   scalar = 3.0;
   for (k = 0; k < NTIMES; k++) {
-    times[0][k] = mysecond();
 #ifdef COPY
+    times[0][k] = mysecond();
 #ifdef TUNED
     tuned_STREAM_Copy();
 #else
@@ -334,9 +334,9 @@ int main() {
 #endif
     times[0][k] = mysecond() - times[0][k];
 
-    times[1][k] = mysecond();
 #endif
 #ifdef SCALE
+    times[1][k] = mysecond();
 #ifdef TUNED
     tuned_STREAM_Scale(scalar);
 #else
@@ -346,9 +346,9 @@ int main() {
 #endif
     times[1][k] = mysecond() - times[1][k];
 
-    times[2][k] = mysecond();
 #endif
 #ifdef ADD
+    times[2][k] = mysecond();
 #ifdef TUNED
     tuned_STREAM_Add();
 #else
@@ -358,9 +358,9 @@ int main() {
 #endif
     times[2][k] = mysecond() - times[2][k];
 
-    times[3][k] = mysecond();
 #endif
 #ifdef TRIAD
+    times[3][k] = mysecond();
 #ifdef TUNED
     tuned_STREAM_Triad(scalar);
 #else
