@@ -324,6 +324,7 @@ int main() {
   scalar = 3.0;
   for (k = 0; k < NTIMES; k++) {
     times[0][k] = mysecond();
+#ifdef COPY
 #ifdef TUNED
     tuned_STREAM_Copy();
 #else
@@ -334,6 +335,8 @@ int main() {
     times[0][k] = mysecond() - times[0][k];
 
     times[1][k] = mysecond();
+#endif
+#ifdef SCALE
 #ifdef TUNED
     tuned_STREAM_Scale(scalar);
 #else
@@ -344,6 +347,8 @@ int main() {
     times[1][k] = mysecond() - times[1][k];
 
     times[2][k] = mysecond();
+#endif
+#ifdef ADD
 #ifdef TUNED
     tuned_STREAM_Add();
 #else
@@ -354,6 +359,8 @@ int main() {
     times[2][k] = mysecond() - times[2][k];
 
     times[3][k] = mysecond();
+#endif
+#ifdef TRIAD
 #ifdef TUNED
     tuned_STREAM_Triad(scalar);
 #else
@@ -362,14 +369,23 @@ int main() {
       a[j] = b[j] + scalar * c[j];
 #endif
     times[3][k] = mysecond() - times[3][k];
+#endif
   }
 
   /*	--- SUMMARY --- */
 
+#ifdef COPY
   write_result("Copy.csv", times[0], bytes[0]);
+#endif
+#ifdef SCALE
   write_result("Scale.csv", times[1], bytes[1]);
+#endif
+#ifdef ADD
   write_result("Add.csv", times[2], bytes[2]);
+#endif
+#ifdef TRIAD
   write_result("Triad.csv", times[3], bytes[3]);
+#endif
 
   for (k = 1; k < NTIMES; k++) /* note -- skip first iteration */
   {
